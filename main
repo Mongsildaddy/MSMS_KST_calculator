@@ -1,0 +1,31 @@
+from datetime import time, datetime, timedelta
+import calendar
+
+# Title
+print("안녕하세요! 몽실몽실 한국시간 계산기입니다. \n아래에 한국 시간을 입력해주세요\n")
+
+
+print('\n한국시간을 입력해주세요!')
+
+# 시간 입력창
+y = int(input('연도: '))
+m = int(input('월: '))
+d = int(input('일: '))
+t = int(input('시: '))
+mm = int(input('분: '))
+
+#시간대 변경
+time_stand = datetime(y, m, d, t, mm)
+time_pst = time_stand + timedelta(hours=-17)
+time_pdt = time_stand + timedelta(hours=-16)
+
+print("\n한국시간: ")
+print(time_stand)
+print('월화수목금토일'[calendar.weekday(y,m,d)]+'요일')
+print("\nPST: ")
+print(time_pst)
+print("\nPDT: ")
+print(time_pdt)
+
+print('\n\n종료하시려면 아무 키나 입력하세요.')
+input()
