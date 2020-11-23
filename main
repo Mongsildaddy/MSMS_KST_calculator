@@ -1,31 +1,143 @@
-from datetime import time, datetime, timedelta
-import calendar
+from tkinter import *
+from tkinter import ttk, Entry
+from datetime import datetime, timedelta
 
-# Title
-print("안녕하세요! 몽실몽실 한국시간 계산기입니다. \n아래에 한국 시간을 입력해주세요\n")
+#Window
+root = Tk()
+root.title("몽실몽실 한국시간 계산기")
+root.geometry("500x200")
+root.resizable(0,0)
+
+#time input/Entry
+lbl = Label(root, text="한국 시간을 입력하세요")
+lbl.grid(row=0, column=4)
+lbl = Label(root, text="연도")
+lbl.grid(row=2, column=3)
+yy = Entry(int())
+yy.grid(row=2, column=4)
+lbl = Label(root, text="월")
+lbl.grid(row=3, column=3)
+mm = Entry(int())
+mm.grid(row=3, column=4)
+lbl = Label(root, text="일")
+lbl.grid(row=4, column=3)
+dd = Entry(int())
+dd.grid(row=4, column=4)
+lbl = Label(root, text="시")
+lbl.grid(row=5, column=3)
+hr = Entry(int())
+hr.grid(row=5, column=4)
+lbl = Label(root, text="분")
+lbl.grid(row=6, column=3)
+mi = Entry(int())
+mi.grid(row=6, column=4)
 
 
-print('\n한국시간을 입력해주세요!')
+#Labels for time standard
+lblKST = Label(root, text="      한국시간: ")
+lblKST.grid(row=2, column=5)
+lbl2 = Label(root, text="2XXX/XX/XX XX:00")
+lbl2.grid(row=2, column=6)
 
-# 시간 입력창
-y = int(input('연도: '))
-m = int(input('월: '))
-d = int(input('일: '))
-t = int(input('시: '))
-mm = int(input('분: '))
+lblPST = Label(root, text="      PST: ")
+lblPST.grid(row=4, column=5)
+lbl3 = Label(root, text="2XXX/XX/XX XX:00")
+lbl3.grid(row=4, column=6)
 
-#시간대 변경
-time_stand = datetime(y, m, d, t, mm)
-time_pst = time_stand + timedelta(hours=-17)
-time_pdt = time_stand + timedelta(hours=-16)
+lblPDT = Label(root, text="      PDT: ")
+lblPDT.grid(row=6, column=5)
+lbl4 = Label(root, text="2XXX/XX/XX XX:00")
+lbl4.grid(row=6, column=6)
 
-print("\n한국시간: ")
-print(time_stand)
-print('월화수목금토일'[calendar.weekday(y,m,d)]+'요일')
-print("\nPST: ")
-print(time_pst)
-print("\nPDT: ")
-print(time_pdt)
+#Labels for date
+lbl5 = Label(root, text="  DATE")
+lbl5.grid(row=2, column = 7)
 
-print('\n\n종료하시려면 아무 키나 입력하세요.')
-input()
+lbl6 = Label(root, text="  DATE")
+lbl6.grid(row=4, column = 7)
+
+lbl7 = Label(root, text="  DATE")
+lbl7.grid(row=6, column = 7)
+
+def showtime():
+    #Input time in str
+    year = int(Entry.get(yy))
+    month = int(Entry.get(mm))
+    day = int(Entry.get(dd))
+    hour = int(Entry.get(hr))
+    minute = int(Entry.get(mi))
+
+    #Time zone calculation
+    time_stand = datetime(year, month, day, hour, minute)
+    time_pst = time_stand + timedelta(hours=-17)
+    time_pdt = time_stand + timedelta(hours=-16)
+
+    #Date calculation
+    KSTYo = time_stand.weekday()
+    PSTYo = time_pst.weekday()
+    PDTYo = time_pdt.weekday()
+
+    #Convert label to time zone(result)
+    lbl2.config(text="      " + str(time_stand))
+    lbl3.config(text="      " + str(time_pst))
+    lbl4.config(text="      " + str(time_pdt))
+
+    #DATE/KST
+    if KSTYo == 0:
+        KOYo = "월요일"
+    elif KSTYo == 1:
+        KOYo = "화요일"
+    elif KSTYo == 2:
+        KOYo = "수요일"
+    elif KSTYo == 3:
+        KOYo = "목요일"
+    elif KSTYo == 4:
+        KOYo = "금요일"
+    elif KSTYo == 5:
+        KOYo = "토요일"
+    elif KSTYo == 6:
+        KOYo = "일요일"
+
+    #DATE/PST
+    if PSTYo == 0:
+        PSYo = "월요일"
+    elif PSTYo == 1:
+        PSYo = "화요일"
+    elif PSTYo == 2:
+        PSYo = "수요일"
+    elif PSTYo == 3:
+        PSYo = "목요일"
+    elif PSTYo == 4:
+        PSYo = "금요일"
+    elif PSTYo == 5:
+        PSYo = "토요일"
+    elif PSTYo == 6:
+        PSYo = "일요일"
+
+    #DATE/PDT
+    if PDTYo == 0:
+        PDYo = "월요일"
+    elif PDTYo == 1:
+        PDYo = "화요일"
+    elif PDTYo == 2:
+        PDYo = "수요일"
+    elif PDTYo == 3:
+        PDYo = "목요일"
+    elif PDTYo == 4:
+        PDYo = "금요일"
+    elif PDTYo == 5:
+        PDYo = "토요일"
+    elif PDTYo == 6:
+        PDYo = "일요일"
+
+    #Convert the labels to date
+    lbl5.config(text=str(KOYo))
+    lbl6.config(text=str(PSYo))
+    lbl7.config(text=str(PDYo))
+
+#button
+btn = ttk.Button(text = "변환!", command=showtime)
+btn.grid(row=8, column=4)
+
+
+root.mainloop()
